@@ -1,12 +1,12 @@
-import cv2
+from sklearn.svm import LinearSVC, SVC
 
 def get_svm(linear = True):
-    SVM = cv2.ml.SVM_create()
-    SVM.setType(cv2.ml.SVM_C_SVC)
 
-    if linear:        
-        SVM.setKernel(cv2.ml.SVM_LINEAR)
+    if linear:
+        print('Classifier - linear SVM')
+        SVM = LinearSVC(max_iter=1000000)
     else:
-        SVM.setKernel(cv.ml.SVM_RBF)
+        print('Classifier - RBF SVM')        
+        SVM = SVC()
 
     return SVM

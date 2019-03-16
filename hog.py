@@ -1,7 +1,9 @@
 import cv2
+import numpy as np
 
 #define HOG
 def get_hog():
+    print('Descriptor - HOG')
     window_size = (300, 300)
     block_size = (60, 60)
     block_stride = (30, 30)
@@ -16,4 +18,5 @@ def get_hog():
     signed_gradients = True
 
     hog = cv2.HOGDescriptor(window_size, block_size, block_stride, cell_size, nbins, deriv_aperture, window_sigma, histogram_norm_type, L2_hys_threshold, gamma_correction, nlevels, signed_gradients)
-    return hog.compute
+
+    return lambda image : np.array(hog.compute(image)).flatten()

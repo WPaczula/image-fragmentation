@@ -1,4 +1,5 @@
 from utils import get_file_length, print_in_line
+import numpy as np
 import cv2
 
 def get_feature_label(images_dir, file, descriptor, image_label_pairs, with_image = False):
@@ -13,7 +14,7 @@ def get_feature_label(images_dir, file, descriptor, image_label_pairs, with_imag
             file_name = file_name.rstrip('\r\n')
             file_path = images_dir + "/" + file_name
 
-            print_in_line('Processing image - {} out of {} {}'.format(i, file_length, file_name))
+            print_in_line('Processing image - {} out of {}'.format(i, file_length))
             
             image = cv2.imread(file_path, cv2.IMREAD_COLOR)
             image = cv2.resize(image, (300, 300))
@@ -28,4 +29,4 @@ def get_feature_label(images_dir, file, descriptor, image_label_pairs, with_imag
             i += 1
     print('')
     
-    return (features_list, labels_list, images_list)
+    return (np.array(features_list), np.array(labels_list), np.array(images_list))

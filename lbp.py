@@ -13,4 +13,4 @@ def get_lbp():
         gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY) 
         return features.lbp(gray_image, radius, points, ignore_zeros=False)
 
-    return get_bound_lbp
+    return (get_bound_lbp, 'LBP')

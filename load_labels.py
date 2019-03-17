@@ -17,9 +17,9 @@ def load_labels(labels_file):
             if label_text in label_text_dict:
                 label = label_text_dict[label_text]
             else:
-                i += 1
                 label = i
                 label_text_dict[label_text] = i
+                i += 1
             image_label_pairs[splits[0]] = label
 
     return (image_label_pairs, label_text_dict)

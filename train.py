@@ -22,4 +22,4 @@ def train(images_dir, image_label_pairs, train_file, descriptor, classifier):
     print('Classifier training')
     classifier.fit(train_features, train_labels)
 
-    return classifier
+    return (classifier, train_labels)

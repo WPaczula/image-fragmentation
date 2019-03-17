@@ -29,4 +29,4 @@ def get_feature_label(images_dir, file, descriptor, image_label_pairs, with_imag
             i += 1
     print('')
     
-    return (np.array(features_list), np.array(labels_list), np.array(images_list))
+    return (features_list, labels_list, images_list)

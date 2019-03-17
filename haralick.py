@@ -12,4 +12,4 @@ def get_haralicks():
     use_x_minus_y_variance = False
     distance = 1
 
-    return (lambda image : np.array(features.haralick(image, ignore_zeros, preserve_haralick_bug, compute_14th_feature, return_mean, return_mean_ptp, use_x_minus_y_variance, distance)).flatten(), 'co-occurence matrix')
+    return (lambda image : np.array(features.haralick(image, ignore_zeros, preserve_haralick_bug, compute_14th_feature, return_mean, return_mean_ptp, use_x_minus_y_variance, distance)).flatten(), 'co-occurence_matrix')

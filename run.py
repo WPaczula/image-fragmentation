@@ -1,12 +1,15 @@
+# main libs
 import cv2
 import numpy as np
 import os
-from sklearn.metrics import accuracy_score
+# helpers
 from load_labels import load_labels
 from get_classes import get_classes
 from train import train
 from test import test
-from sklearn.metrics import confusion_matrix
+from persist import load, save
+# metrics and presentation
+from sklearn.metrics import accuracy_score
 from plot_confusion_matrix import plot_confusion_matrix
 from show_details import show_details
 # descriptors
@@ -30,11 +33,14 @@ def run():
     (image_label_pairs, label_text_dict) = load_labels(labels_file)
 
     # choose descriptor
-    (descriptor, descriptors_name) = get_hog()
-    (classifier, classifiers_name) = get_svm()
+    (descriptor, descriptors_name) = get_lbp()
+    (classifier, classifiers_name) = get_knn()
 
     # train classifier
     (classifier, train_labels) = train(images_dir, image_label_pairs, train_file, descriptor, classifier)
+
+    # save classifier
+    save(classifier, descriptors_name)
 
     # test classifier on given test data
     (results, test_labels, test_images) = test(images_dir, image_label_pairs, test_file, descriptor, classifier)
@@ -47,6 +53,8 @@ def run():
 
     # experiment details
     show_details(descriptors_name, classifiers_name, number_of_classes, len(train_labels), len(test_labels), accuracy)
+
+    print()
 
     # confusion matrix
     plot = plot_confusion_matrix(test_labels, results, classes, title='Confusion matrix', normalize=True)

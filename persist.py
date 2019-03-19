@@ -1,10 +1,10 @@
 from joblib import dump, load
 import os 
 
-def save(classifier, name):
-    print('Saving classifier')
+def save(model, name):
+    print('Saving model')
     filename = os.path.join('models', '{}.joblib'.format(name))
-    dump(classifier, filename)
+    dump(model, filename)
 
 def load(file):
     return load(file) 

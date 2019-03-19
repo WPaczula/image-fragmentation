@@ -1,32 +1,33 @@
-from utils import get_file_length, print_in_line
+from utils import count_used_file_number, print_in_line
 import numpy as np
 import cv2
 
-def get_feature_label(images_dir, file, descriptor, image_label_pairs, with_image = False):
+def get_feature_label(used_labels, images_dir, file, descriptor, image_label_pairs, is_test = False):
     features_list = []
     labels_list = []
     images_list = []
-    file_length = get_file_length(file)
+    file_number = count_used_file_number(used_labels, file)
 
     with open(file) as f:
         i = 1
         for file_name in f:
-            file_name = file_name.rstrip('\r\n')
-            file_path = images_dir + "/" + file_name
+            if file_name.split('/')[0] in used_labels:
+                file_name = file_name.rstrip('\r\n')
+                file_path = images_dir + "/" + file_name
 
-            print_in_line('Processing image - {} out of {}'.format(i, file_length))
-            
-            image = cv2.imread(file_path, cv2.IMREAD_COLOR)
-            image = cv2.resize(image, (300, 300))
+                print_in_line('Processing {} image - {} out of {}'.format('test' if is_test else 'train', i, file_number))
+                
+                image = cv2.imread(file_path, cv2.IMREAD_COLOR)
+                image = cv2.resize(image, (300, 300))
 
-            if with_image:
-                images_list.append(image)
-            features = descriptor(image)
-            label = image_label_pairs[file_name]
+                if is_test:
+                    images_list.append(image)
+                features = descriptor(image)
+                label = image_label_pairs[file_name]
 
-            features_list.append(features)
-            labels_list.append(label)
-            i += 1
+                features_list.append(features)
+                labels_list.append(label)
+                i += 1
     print('')
     
-    return (features_list, labels_list, images_list)
+    return (np.array(features_list), np.array(labels_list), np.array(images_list))

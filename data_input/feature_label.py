@@ -2,7 +2,7 @@ from utils import count_used_file_number, print_in_line
 import numpy as np
 import cv2
 
-def get_feature_label(used_labels, images_dir, file, descriptor, image_label_pairs, is_test = False):
+def get_feature_label(used_labels, images_dir, file, descriptor, image_label_pairs, name, is_test = False):
     features_list = []
     labels_list = []
     images_list = []
@@ -15,7 +15,7 @@ def get_feature_label(used_labels, images_dir, file, descriptor, image_label_pai
                 file_name = file_name.rstrip('\r\n')
                 file_path = images_dir + "/" + file_name
 
-                print_in_line('Processing {} image - {} out of {}'.format('test' if is_test else 'train', i, file_number))
+                print_in_line('Processing {} image - {} out of {}'.format(name, i, file_number))
                 
                 image = cv2.imread(file_path, cv2.IMREAD_COLOR)
                 image = cv2.resize(image, (300, 300))
@@ -30,4 +30,7 @@ def get_feature_label(used_labels, images_dir, file, descriptor, image_label_pai
                 i += 1
     print('')
     
-    return (np.array(features_list), np.array(labels_list), np.array(images_list))
+    features_list = np.array(features_list)
+    print(features_list.shape)
+    
+    return (features_list, np.array(labels_list), np.array(images_list))

@@ -1,0 +1,4 @@
+from results.plot_confusion_matrix import plot_confusion_matrix
+from results.plot_history import plot_history
+from results.show_details import show_details
+from results.show_wrong_images import show_wrong_images

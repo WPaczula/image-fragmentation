@@ -9,7 +9,7 @@ def get_haralicks():
     ignore_zeros = False
     preserve_haralick_bug = False
     compute_14th_feature = False
-    return_mean = False
+    return_mean = False # sprawdzić średnią na 100%
     return_mean_ptp = False
     use_x_minus_y_variance = False
     distance = 1

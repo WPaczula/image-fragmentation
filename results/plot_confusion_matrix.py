@@ -50,6 +50,6 @@ def plot_confusion_matrix(y_true, y_pred, classes,
         fig.tight_layout()
     
     np.set_printoptions(precision=2)
-    return plt
+    plt.show()
 
 

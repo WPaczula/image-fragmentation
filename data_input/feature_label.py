@@ -1,8 +1,9 @@
 from utils import count_used_file_number, print_in_line
 import numpy as np
 import cv2
+import tensorflow as tf
 
-def get_feature_label(used_labels, images_dir, file, descriptor, image_label_pairs, name, is_test = False):
+def get_feature_label(used_labels, images_dir, file, descriptor, image_label_pairs, name, is_train = False):
     features_list = []
     labels_list = []
     images_list = []
@@ -19,12 +20,9 @@ def get_feature_label(used_labels, images_dir, file, descriptor, image_label_pai
                 
                 image = cv2.imread(file_path, cv2.IMREAD_COLOR)
                 image = cv2.resize(image, (300, 300))
-
-                if is_test:
-                    images_list.append(image)
+                images_list.append(image)
                 features = descriptor(image)
                 label = image_label_pairs[file_name]
-
                 features_list.append(features)
                 labels_list.append(label)
                 i += 1

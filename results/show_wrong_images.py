@@ -1,5 +1,5 @@
 import cv2
-from results.utils import get_key_by_value
+from utils import get_key_by_value
 
 def show_wrong_images(label_text_dict, test_labels, results, test_images):
     for i in range(len(results)):

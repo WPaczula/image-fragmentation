@@ -9,10 +9,12 @@ from model import get_model, train, test, load, save
 
 def run():
     images_dir = "./images"
+    dataset_number = 2
     labels_file = './labels/labels_joint_anno.txt'
-    train_file = './labels/train1.txt'
-    test_file = './labels/test1.txt'
-    validation_file= './labels/val1.txt'
+    train_file = './labels/train{}.txt'.format(dataset_number)
+    test_file = './labels/test{}.txt'.format(dataset_number)
+    validation_file= './labels/val{}.txt'.format(dataset_number)
+    epochs = 25000
     show_images = False
     show_numbers = False
 
@@ -21,18 +23,18 @@ def run():
     (image_label_pairs, label_text_dict) = load_labels(used_labels, labels_file)
 
     # choose descriptor
-    (descriptor, descriptors_name) = get_hog()
+    (descriptor, descriptors_name) = get_haralicks()
 
     # get train and test samples
-    (train_features, train_labels, _) = get_feature_label(used_labels, images_dir, train_file, descriptor, image_label_pairs, 'train')
+    (train_features, train_labels, _) = get_feature_label(used_labels, images_dir, train_file, descriptor, image_label_pairs, 'train', is_train=True)
     (val_features, val_labels, _) = get_feature_label(used_labels, images_dir, validation_file, descriptor, image_label_pairs, 'validation')
-    (test_features, test_labels, test_images) = get_feature_label(used_labels, images_dir, test_file, descriptor, image_label_pairs, 'test', is_test=show_images) 
+    (test_features, test_labels, test_images) = get_feature_label(used_labels, images_dir, test_file, descriptor, image_label_pairs, 'test') 
 
     # create a model
     (model, model_description) = get_model(len(list(set(train_labels))))
 
     # train model
-    (trained_model, training_history) = train(train_features, train_labels, val_features, val_labels, model, 50)
+    (trained_model, training_history) = train(train_features, train_labels, val_features, val_labels, model, epochs)
 
     # test model on given test data
     results = test(test_features, test_labels, trained_model)

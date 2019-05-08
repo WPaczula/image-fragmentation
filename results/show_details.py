@@ -1,7 +1,12 @@
 import matplotlib.pyplot as plt
 import matplotlib.patheffects as path_effects
 
-def show_details(descriptors_name, classifiers_name, number_of_classes, number_of_train_samples, number_of_test_samples, accuracy):
+def show_details(
+    descriptors_name, 
+    classifiers_name, 
+    number_of_classes, 
+    number_of_train_samples, 
+    number_of_test_samples, accuracy):
     fig = plt.figure(figsize=(5, 5))
     rows = [
         'Descriptor - {}'.format(descriptors_name),
@@ -16,3 +21,4 @@ def show_details(descriptors_name, classifiers_name, number_of_classes, number_o
                     ha='center', va='center', size=20)
     text.set_path_effects([path_effects.Normal()])
     fig.show()
+    plt.show()

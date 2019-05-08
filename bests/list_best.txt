@@ -1,0 +1,86 @@
+**********************************************HOG**********************************************
+1. 0.67
+model: 
+    model.add(tf.keras.layers.Flatten())
+    model.add(tf.keras.layers.Dense(25, activation=tf.nn.relu))
+    model.add(tf.keras.layers.Dense(10, activation=tf.nn.relu))
+    model.add(tf.keras.layers.Dropout(0.35))
+    model.add(tf.keras.layers.Dense(number_of_classes, activation=tf.nn.softmax))
+epochs = 5000
+learning_rate = 0.00005
+window_size = (300, 300)
+block_size = (150, 150)
+block_stride = (150, 150)
+cell_size = (75, 75)
+nbins = 12
+not signed gradients
+
+2. 0.67
+model:
+    model.add(tf.keras.layers.Flatten())
+    model.add(tf.keras.layers.Dense(512, activation=tf.nn.relu))
+    model.add(tf.keras.layers.Dense(128, activation=tf.nn.relu))
+    model.add(tf.keras.layers.Dropout(0.35))
+    model.add(tf.keras.layers.Dense(number_of_classes, activation=tf.nn.softmax))  
+epochs = 1000
+learning_rate = 0.00001 
+window_size = (300, 300)
+block_size = (200, 200)
+block_stride = (100, 100)
+cell_size = (25, 25)
+nbins = 9
+not signed gradients
+
+***********************************************LBP**********************************************
+1. 0.75
+model:
+    model.add(tf.keras.layers.Flatten())
+    model.add(tf.keras.layers.Dense(8, activation=tf.nn.relu))
+    model.add(tf.keras.layers.Dense(8, activation=tf.nn.relu))
+    model.add(tf.keras.layers.Dense(number_of_classes, activation=tf.nn.softmax))
+epochs = 5000
+learning_rate = 0.001
+radius=10
+points=20
+bins=23
+
+2. 0.72
+model:
+    model.add(tf.keras.layers.Flatten())
+    model.add(tf.keras.layers.Dense(4, activation=tf.nn.relu))
+    model.add(tf.keras.layers.Dense(4, activation=tf.nn.relu))
+    model.add(tf.keras.layers.Dense(number_of_classes, activation=tf.nn.softmax))
+epochs = 15000
+learning_rate = 0.0001
+radius=7
+points=20
+bins=12
+
+*********************************************HF*********************************************
+1. 0.65
+model:
+    model.add(tf.keras.layers.Dense(16, activation=tf.nn.relu))
+    model.add(tf.keras.layers.Dense(8, activation=tf.nn.relu))
+    model.add(tf.keras.layers.Dropout(0.15))
+    model.add(tf.keras.layers.Dense(number_of_classes, activation=tf.nn.softmax))
+epochs = 25000
+learning_rate = 0.0001
+distances = [1, 2, 5, 10]
+rotations = [0, pi/4, pi/2, 3*pi/4]
+levels = 256
+symmetric = True
+normed = True
+
+2. 0.655
+model: 
+    model.add(tf.keras.layers.Dense(4, activation=tf.nn.relu))
+    model.add(tf.keras.layers.Dense(4, activation=tf.nn.relu))
+    model.add(tf.keras.layers.Dropout(0.15))
+    model.add(tf.keras.layers.Dense(number_of_classes, activation=tf.nn.softmax))
+epochs = 50000
+learning_rate = 0.001
+distances = [-3, -1, 2, 4]
+rotations = [0, pi/4, pi/2, 3*pi/4]
+levels = 256
+symmetric = True
+normed = True

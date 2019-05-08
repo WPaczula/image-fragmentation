@@ -3,7 +3,7 @@ import os
 
 def save(model, name):
     print('Saving model')
-    filename = os.path.join('models', '{}.joblib'.format(name))
+    filename = os.path.join('persisted_models', '{}.joblib'.format(name))
     dump(model, filename)
 
 def load(file):

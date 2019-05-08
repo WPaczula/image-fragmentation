@@ -5,9 +5,9 @@ import numpy as np
 def get_hog():
     print('Descriptor - HOG')
     window_size = (300, 300)
-    block_size = (150, 150)
-    block_stride = (75, 75)
-    cell_size = (75, 75)
+    block_size = (200, 200)
+    block_stride = (100, 100)
+    cell_size = (25, 25)
     nbins = 9
     deriv_aperture = 1
     window_sigma = -1.
@@ -15,7 +15,7 @@ def get_hog():
     L2_hys_threshold = 0.2
     gamma_correction = 1
     nlevels = 64
-    signed_gradients = True
+    signed_gradients = False
 
     hog = cv2.HOGDescriptor(window_size, block_size, block_stride, cell_size, nbins, deriv_aperture, window_sigma, histogram_norm_type, L2_hys_threshold, gamma_correction, nlevels, signed_gradients)
 

@@ -4,21 +4,30 @@ import matplotlib.patheffects as path_effects
 def show_details(
     descriptors_name, 
     classifiers_name, 
-    number_of_classes, 
-    number_of_train_samples, 
-    number_of_test_samples, accuracy):
+    number_of_classes,
+    number_of_folds,
+    number_of_samples, 
+    number_of_validation_samples,
+    accuracy,
+    save_image,
+    path):
     fig = plt.figure(figsize=(5, 5))
     rows = [
-        'Descriptor - {}'.format(descriptors_name),
-        'Classifier - {}'.format(classifiers_name),
-        'Number of classes - {}'.format(number_of_classes),
-        'Number of train samples - {}'.format(number_of_train_samples),                            
-        'Number of test samples - {}'.format(number_of_test_samples),                            
-        'Classifiers accuracy - {}'.format(accuracy),   
+        'Deskryptor - {}'.format(descriptors_name),
+        'Klasyfikator - {}'.format(classifiers_name),
+        'Liczba klas - {}'.format(number_of_classes),
+        'Liczebność zbioru uczącego - {}'.format(number_of_samples), 
+        'Liczebność zbioru walidacyjnego - {}'.format(number_of_validation_samples),                          
+        'Krotność walidacji krzyżowej - {}'.format(number_of_folds),  
+        'Dokładność klasyfikacji - {}'.format(accuracy),   
     ]
     separator = '\n'
     text = fig.text(0.5, 0.5, separator.join(rows),                       
                     ha='center', va='center', size=20)
     text.set_path_effects([path_effects.Normal()])
-    fig.show()
-    plt.show()
+    if save_image:
+        plt.savefig('{}/desc.png', loc='upper left')
+    else:
+        fig.show()
+        plt.show()
+

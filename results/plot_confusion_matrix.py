@@ -8,7 +8,11 @@ def plot_confusion_matrix(y_true, y_pred, classes,
                           normalize=False,
                           title=None,
                           cmap=plt.cm.Blues,
-                          show_numbers=False):
+                          show_numbers=False,
+                          save_plots=False, 
+                          path="", 
+                          number="",
+                          ):
     if not title:
         if normalize:
             title = 'Normalized confusion matrix'
@@ -31,8 +35,8 @@ def plot_confusion_matrix(y_true, y_pred, classes,
            # ... and label them with the respective list entries
            xticklabels=classes, yticklabels=classes,
            title=title,
-           ylabel='True label',
-           xlabel='Predicted label')
+           ylabel='Prawdziwa klasa',
+           xlabel='Przewidziana klasa')
 
     # Rotate the tick labels and set their alignment.
     plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
@@ -50,6 +54,10 @@ def plot_confusion_matrix(y_true, y_pred, classes,
         fig.tight_layout()
     
     np.set_printoptions(precision=2)
-    plt.show()
+    if show_numbers:
+        plt.savefig('{}/{}_confusion_matrix.png'.format(path, number))
+        plt.clf()
+    else:
+        plt.show()
 
 

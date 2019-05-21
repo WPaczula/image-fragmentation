@@ -10,7 +10,7 @@ def get_haralicks(long = False):
     print('Descriptor - Haralicks features')
 
     pi = 3.14
-    distances = [-3, -1, 2, 4]
+    distances = [1, 2, 5, 10]
     rotations = [0, pi/4, pi/2, 3*pi/4]
     levels = 256
     symmetric = True

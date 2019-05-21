@@ -1,7 +1,7 @@
 **********************************************HOG**********************************************
 1. 0.67
 model: 
-    model.add(tf.keras.layers.Flatten())
+    model.add(tf.keras.layers.Flatten()) - 192
     model.add(tf.keras.layers.Dense(25, activation=tf.nn.relu))
     model.add(tf.keras.layers.Dense(10, activation=tf.nn.relu))
     model.add(tf.keras.layers.Dropout(0.35))
@@ -17,7 +17,7 @@ not signed gradients
 
 2. 0.67
 model:
-    model.add(tf.keras.layers.Flatten())
+    model.add(tf.keras.layers.Flatten()) - 2304
     model.add(tf.keras.layers.Dense(512, activation=tf.nn.relu))
     model.add(tf.keras.layers.Dense(128, activation=tf.nn.relu))
     model.add(tf.keras.layers.Dropout(0.35))
@@ -34,7 +34,7 @@ not signed gradients
 ***********************************************LBP**********************************************
 1. 0.75
 model:
-    model.add(tf.keras.layers.Flatten())
+    model.add(tf.keras.layers.Flatten()) - 22
     model.add(tf.keras.layers.Dense(8, activation=tf.nn.relu))
     model.add(tf.keras.layers.Dense(8, activation=tf.nn.relu))
     model.add(tf.keras.layers.Dense(number_of_classes, activation=tf.nn.softmax))
@@ -46,7 +46,7 @@ bins=23
 
 2. 0.72
 model:
-    model.add(tf.keras.layers.Flatten())
+    model.add(tf.keras.layers.Flatten()) - 19
     model.add(tf.keras.layers.Dense(4, activation=tf.nn.relu))
     model.add(tf.keras.layers.Dense(4, activation=tf.nn.relu))
     model.add(tf.keras.layers.Dense(number_of_classes, activation=tf.nn.softmax))
@@ -59,6 +59,7 @@ bins=12
 *********************************************HF*********************************************
 1. 0.65
 model:
+    model.add(tf.keras.layers.Flatten()) - 24
     model.add(tf.keras.layers.Dense(16, activation=tf.nn.relu))
     model.add(tf.keras.layers.Dense(8, activation=tf.nn.relu))
     model.add(tf.keras.layers.Dropout(0.15))
@@ -72,7 +73,8 @@ symmetric = True
 normed = True
 
 2. 0.655
-model: 
+model:
+    model.add(tf.keras.layers.Flatten()) - 24
     model.add(tf.keras.layers.Dense(4, activation=tf.nn.relu))
     model.add(tf.keras.layers.Dense(4, activation=tf.nn.relu))
     model.add(tf.keras.layers.Dropout(0.15))

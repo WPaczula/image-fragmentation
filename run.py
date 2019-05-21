@@ -2,21 +2,25 @@
 import cv2
 import numpy as np
 import os
-from data_input import load_labels, get_classes, get_feature_label, used_labels
+from data_input import load_labels, transform_images
 from descriptors import get_haralicks, get_hog, get_lbp
-from results import plot_confusion_matrix, plot_history, show_details, show_wrong_images
-from model import get_model, train, test, load, save
+from results import plot_confusion_matrix, plot_history, show_details
+from model import get_model
+from sklearn.model_selection import train_test_split, StratifiedKFold
 import tensorflow as tf
+import ctypes
 
 def run():
+    number_of_classes = 5
+    classes = np.array(['krata', 'kryształ', 'włókna', 'linie', 'grochy'])
+    seed = 7
+    np.random.seed(seed)
+    path = "./bests/HOG/1"
     images_dir = "./images"
-    dataset_number = 5
-    labels_file = './labels/labels_joint_anno.txt'
-    train_file = './labels/train{}.txt'.format(dataset_number)
-    test_file = './labels/test{}.txt'.format(dataset_number)
-    validation_file= './labels/val{}.txt'.format(dataset_number)
-    epochs = 50000
-    learning_rate = 0.001
+    labels_file = './labels/labels.txt'
+    epochs = 3000
+    learning_rate = 0.0001
+    n_splits = 10
     optimizers = [
         (tf.keras.optimizers.SGD(lr=learning_rate, momentum=0.5), 'sgd'),
         (tf.keras.optimizers.Adam(lr=learning_rate, beta_1=0.9, beta_2=0.999, epsilon=None, decay=0.0, amsgrad=False), 'adam'),
@@ -27,56 +31,58 @@ def run():
         ('categorical_crossentropy', True), #categorical
         ('kullback_leibler_divergence', True) #categorical
     ]
-    optimizer = optimizers[1]
-    (loss_function, is_categorical) = loss_functions[1]
+    optimizer = optimizers[2]
+    (loss_function, is_categorical) = loss_functions[0]
     show_images = False
     show_numbers = True
+    show_plots = True
+    save_plots = True
 
     # load labels from file, create a file - numeric label dict
     # as well as numeric - text label dict
-    (image_label_pairs, label_text_dict) = load_labels(used_labels, labels_file)
+    (image_label_pairs, label_text_dict, images) = load_labels(labels_file)
 
     # choose descriptor
-    (descriptor, descriptors_name) = get_haralicks()
+    (descriptor, descriptors_name) = get_hog()
 
-    # get train and test samples
-    (train_features, train_labels, _) = get_feature_label(used_labels, images_dir, train_file, descriptor, image_label_pairs, 'train', is_train=True)
-    (val_features, val_labels, _) = get_feature_label(used_labels, images_dir, validation_file, descriptor, image_label_pairs, 'validation')
-    (test_features, test_labels, test_images) = get_feature_label(used_labels, images_dir, test_file, descriptor, image_label_pairs, 'test') 
-
-    # create a model
-    (model, model_description) = get_model(len(list(set(train_labels))), loss_function, optimizer)
+    # get samples
+    (X, Y, images_list) = transform_images(images_dir, descriptor, image_label_pairs, images)
 
     # train model
     if is_categorical:
-        train_labels = tf.keras.utils.to_categorical(train_labels)
-        val_labels = tf.keras.utils.to_categorical(val_labels)
-    (trained_model, training_history) = train(train_features, train_labels, val_features, val_labels, model, epochs)
-
-    # test model on given test data
-    results = test(test_features, test_labels, trained_model)
-
-    # get classes names and number
-    (classes, number_of_classes) = get_classes(test_labels, label_text_dict)
-
-    # confusion matrix
-    plot_confusion_matrix(test_labels, results, classes, title='Confusion matrix', normalize=True, show_numbers=show_numbers)
+        Y = tf.keras.utils.to_categorical(Y)
     
-    # training graph
-    plot_history(training_history)
+    X, X_val, Y, Y_val = train_test_split(X, Y, test_size=0.25, random_state=seed)
 
-    # get accuracy and loss
-    if is_categorical:
-        test_labels = tf.keras.utils.to_categorical(test_labels)
-    loss, accuracy = trained_model.evaluate(test_features, test_labels)
+    kfold = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=seed)
+
+    cvscores = []
+    histories = []
+    i=1
+    for train, test in kfold.split(X, Y):
+        # create a model
+        (model, model_description) = get_model(len(list(set(Y))), loss_function, optimizer)
+        # Fit the model
+        history = model.fit(X[train], Y[train], epochs=epochs, validation_data=(X_val, Y_val), verbose=1)
+        # evaluate the model
+        scores = model.evaluate(X[test], Y[test], verbose=0)
+        results = model.predict_classes(X[test])
+        cvscores.append(scores[1] * 100)
+
+        if show_plots:
+            plot_confusion_matrix(Y[test], results, classes, title='Tablica pomyłek', normalize=True, show_numbers=show_numbers, save_plots=save_plots, path=path, number=i)
+            plot_history(history, save_plots, path, i)
+
+        print("%s: %.2f%%" % (model.metrics_names[1], scores[1]*100))
+        i += 1
+    
+    final = '{}(+/- {})%'.format(str(round(np.mean(cvscores), 3)), str(round(np.std(cvscores), 3))) 
+    print(final)
 
     # experiment details
-    show_details(descriptors_name, model_description, number_of_classes, len(train_labels), len(test_labels), accuracy)
+    show_details(descriptors_name, model_description, number_of_classes, n_splits, len(Y), len(Y_val), final, save_plots, path)
 
-    # show mispredicted images
-    if show_images:
-        show_wrong_images(label_text_dict, test_labels, results, test_images)
-
+    ctypes.windll.user32.MessageBoxW(0, "Finished", "Check out {}".format(path), 1)
     return 0
 
 run()

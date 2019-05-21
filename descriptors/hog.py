@@ -5,9 +5,9 @@ import numpy as np
 def get_hog():
     print('Descriptor - HOG')
     window_size = (300, 300)
-    block_size = (200, 200)
-    block_stride = (100, 100)
-    cell_size = (25, 25)
+    block_size = (150, 150)
+    block_stride = (150, 150)
+    cell_size = (75, 75)
     nbins = 9
     deriv_aperture = 1
     window_sigma = -1.

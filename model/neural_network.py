@@ -6,9 +6,9 @@ def get_model(number_of_classes, loss_function='sparse_categorical_crossentropy'
 
     (optimizer_function, optimizer_name) = optimizer
     model = tf.keras.models.Sequential()
-    model.add(tf.keras.layers.Flatten())
-    model.add(tf.keras.layers.Dense(32, activation=tf.nn.relu))
-    model.add(tf.keras.layers.Dense(16, activation=tf.nn.relu))
+    model.add(tf.keras.layers.Flatten()) # 24
+    model.add(tf.keras.layers.Dense(24, activation=tf.nn.relu))
+    model.add(tf.keras.layers.Dense(12, activation=tf.nn.relu))
     model.add(tf.keras.layers.Dense(number_of_classes, activation=tf.nn.softmax))
 
     model.compile(optimizer = optimizer_function,

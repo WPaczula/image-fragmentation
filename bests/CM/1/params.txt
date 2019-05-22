@@ -1,0 +1,13 @@
+epochs = 3000
+    learning_rate = 0.002
+
+model.add(tf.keras.layers.Flatten()) # 24
+    model.add(tf.keras.layers.Dense(8, activation=tf.nn.relu))
+    model.add(tf.keras.layers.Dense(8, activation=tf.nn.relu))
+    model.add(tf.keras.layers.Dropout(0.15))
+
+distances = [1, 2, 5, 10]
+    rotations = [0, pi/4, pi/2, 3*pi/4]
+    levels = 256
+    symmetric = True
+    normed = True

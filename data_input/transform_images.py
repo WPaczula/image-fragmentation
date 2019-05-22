@@ -25,23 +25,23 @@ def transform_images(images_dir, descriptor, image_label_pairs, images):
         image_original = cv2.resize(image_original, (300, 300))
         add_image(image_original)
 
-        add_image(np.flipud(image_original))
-        add_image(np.fliplr(image_original))                
+        # add_image(np.flipud(image_original))
+        # add_image(np.fliplr(image_original))                
 
-        image = np.rot90(image_original)
-        add_image(image)
-        add_image(np.flipud(image))
-        add_image(np.fliplr(image))
+        # image = np.rot90(image_original)
+        # add_image(image)
+        # add_image(np.flipud(image))
+        # add_image(np.fliplr(image))
 
-        image = np.rot90(image_original, 2)
-        add_image(image)
-        add_image(np.flipud(image))
-        add_image(np.fliplr(image))
+        # image = np.rot90(image_original, 2)
+        # add_image(image)
+        # add_image(np.flipud(image))
+        # add_image(np.fliplr(image))
 
-        image = np.rot90(image_original, 3)
-        add_image(image)
-        add_image(np.flipud(image))
-        add_image(np.fliplr(image))  
+        # image = np.rot90(image_original, 3)
+        # add_image(image)
+        # add_image(np.flipud(image))
+        # add_image(np.fliplr(image))  
         i+=1
 
     print('')

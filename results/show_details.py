@@ -11,7 +11,7 @@ def show_details(
     accuracy,
     save_image,
     path):
-    fig = plt.figure(figsize=(5, 5))
+    fig = plt.figure(figsize=(10, 5))
     rows = [
         'Deskryptor - {}'.format(descriptors_name),
         'Klasyfikator - {}'.format(classifiers_name),
@@ -26,7 +26,7 @@ def show_details(
                     ha='center', va='center', size=20)
     text.set_path_effects([path_effects.Normal()])
     if save_image:
-        plt.savefig('{}/desc.png', loc='upper left')
+        plt.savefig('{}/desc.png'.format(path), loc='upper left')
     else:
         fig.show()
         plt.show()
